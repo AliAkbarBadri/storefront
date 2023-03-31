@@ -1,5 +1,6 @@
 from django.shortcuts import render
-from store.models import Product
+from django.db.models import Q
+from store.models import Product, Customer
 from django.http import HttpResponse
 
 
@@ -14,6 +15,19 @@ def say_hello(request):
     # query_set = Product.objects.filter(unit_price__range=(20, 30))
     # query_set = Product.objects.filter(collection__id__range=(1,3))
     # query_set = Product.objects.filter(title__icontains='coffee')
-    query_set = Product.objects.filter(last_update__year=2021)
+    # query_set = Product.objects.filter(last_update__year=2021)
     # query_set = Product.objects.filter(description__isnull=True)
+
+    # query_set = Customer.objects.filter(email__icontains=".com")
+    # Order items for products in collection 3
+    # query_set = Order.objects.filter(product__collection_id=3)
+    # return render(request, "hello.html", {"name": "Ali", "products": list(query_set)})
+    
+    # and 
+    # query_set = Product.objects.filter(inventory__lt=10, unit_price__lt=20)
+    # query_set = Product.objects.filter(Q(inventory__lt=10) & Q(unit_price__lt=20))
+    
+    # or
+    # query_set = Product.objects.filter(Q(inventory__lt=10) or ~Q(unit_price__lt=20))
+    
     return render(request, "hello.html", {"name": "Ali", "products": list(query_set)})
