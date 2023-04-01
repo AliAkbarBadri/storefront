@@ -5,15 +5,16 @@ from django.http import HttpResponse
 
 
 def say_hello(request):
-    # values
-    # dictionary
-    # query_set = Product.objects.values('id', 'title', 'collection__title')
+    """
+    get objects with id and title.
+    if you access to unit_price it will send a query for unit_price per object.
+    """
+    query_set = Product.objects.only("id", "title")
+    
+    """
+    get objects with all feature except description.
+    if you access to description it will send a query for description per object.
+    """ 
+    query_set = Product.objects.defer("description")
 
-    # tuple
-    # query_set = Product.objects.values_list('id', 'title', 'collection__title')
-
-    # select products that have been ordered and sort them by title
-    query_set = (
-        OrderItem.objects.values(title=F("product__title")).distinct().order_by("title")
-    )
     return render(request, "hello.html", {"name": "Ali", "products": list(query_set)})
