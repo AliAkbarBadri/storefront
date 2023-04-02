@@ -1,21 +1,14 @@
 from django.shortcuts import render
-from django.contrib.contenttypes.models import ContentType
 from store.models import Product, Customer, OrderItem, Order, Collection
 from tags.models import TaggedItem
 
 
 def say_hello(request):
-    # collection = Collection()
-    # collection.title = "Video Game"
-    # collection.featured_product = Product(pk=1)
-    # or: collection.featured_product_id = 1
+    # collection = Collection.objects.get(pk=11)
+    # collection.featured_product = None
     # collection.save()
 
     # or
-    # collection = Collection(title="Video Game", featured_product_id=1)
-    # collection.save()
-
-    # or
-    collection = Collection.objects.create(title="Folan", featured_product_id=11)
+    collection = Collection.objects.filter(pk=12).update(featured_product_id=None)
 
     return render(request, "hello.html", {"name": "Ali"})
