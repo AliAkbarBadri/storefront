@@ -62,7 +62,10 @@ class Customer(models.Model):
     )
 
     def __str__(self):
-        return self.first_name + " " + self.last_name
+        return f"{self.first_name} {self.last_name}"
+
+    class Meta:
+        ordering = ["first_name", "last_name"]
 
 
 class Order(models.Model):
@@ -84,6 +87,9 @@ class Order(models.Model):
     customer = models.ForeignKey(
         Customer, on_delete=models.PROTECT
     )  # never delete order
+
+    def __str__(self):
+        return self.id
 
 
 class OrderItem(models.Model):
