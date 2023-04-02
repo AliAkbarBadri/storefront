@@ -1,14 +1,23 @@
 from django.shortcuts import render
+from django.db import transaction
 from store.models import Product, Customer, OrderItem, Order, Collection
-from tags.models import TaggedItem
 
 
+# decorate all say_hello function to run as a transaction
+@transaction.atomic()
 def say_hello(request):
-    # delete single object
-    collection = Collection(pk=11)
-    collection.delete()
+    order = Order.objects.create(customer_id=1)
+    item = OrderItem.objects.create(
+        order=order, product_id=1, quantity=1, unit_price=10
+    )
+    return render(request, "hello.html", {"name": "Ali"})
 
-    # delete single or multiple objects
-    # collection = Collection.objects.filter(id__gt=10).delete()
-
+# when we want run atomic part of function
+# def say_hello(request):
+#     # ....
+#     with transaction.atomic():
+#         order = Order.objects.create(customer_id=1)
+#         item = OrderItem.objects.create(
+#             order=order, product_id=1, quantity=1, unit_price=10
+#         )
     return render(request, "hello.html", {"name": "Ali"})
