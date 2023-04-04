@@ -3,6 +3,7 @@ from django.db.models.aggregates import Count
 from django.utils.html import format_html
 from django.utils.html import urlencode
 from django.urls import reverse
+from django.db.models import QuerySet
 from . import models
 
 
@@ -36,6 +37,18 @@ class OrderAdmin(admin.ModelAdmin):
     list_per_page = 10
 
 
+class InventoryFilter(admin.SimpleListFilter):
+    title = "inventory"
+    parameter_name = "inventory"
+
+    def lookups(self, request, model_admin):
+        return [("<10", "Low")]
+
+    def queryset(self, request, queryset: QuerySet):
+        if self.value() == "<10":
+            return queryset.filter(inventory__lt=10)
+
+
 @admin.register(models.Product)
 class ProductAdmin(admin.ModelAdmin):
     # if we want shoe __str__ of collection
@@ -47,6 +60,7 @@ class ProductAdmin(admin.ModelAdmin):
     ordering = ["title"]
     list_per_page = 10
     list_select_related = ["collection"]
+    list_filter = ["collection", "last_update", InventoryFilter]
 
     @admin.display(ordering="inventory")
     def inventory_status(self, product) -> str:
