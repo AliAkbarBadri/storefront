@@ -1,9 +1,8 @@
-from django.contrib import admin
+from django.contrib import admin, messages
 from django.db.models.aggregates import Count
-from django.utils.html import format_html
-from django.utils.html import urlencode
-from django.urls import reverse
 from django.db.models import QuerySet
+from django.utils.html import format_html, urlencode
+from django.urls import reverse
 from . import models
 
 
@@ -55,6 +54,7 @@ class ProductAdmin(admin.ModelAdmin):
     # list_display = ["title", "unit_price", "inventory_status", "collection"]
 
     # ow
+    actions = ["clear_inventory"]
     list_display = ["title", "unit_price", "inventory_status", "collection_title"]
     list_editable = ["unit_price"]
     ordering = ["title"]
@@ -71,6 +71,13 @@ class ProductAdmin(admin.ModelAdmin):
     # @admin.display(ordering="collection") sort based on __str__
     def collection_title(self, product) -> str:
         return product.collection.title
+
+    @admin.action(description="Clear inventory")
+    def clear_inventory(self, request, queryset: QuerySet):
+        updated_count = queryset.update(inventory=0)
+        self.message_user(
+            request, f"{updated_count} products were updated!", messages.WARNING
+        )
 
 
 @admin.register(models.Customer)
