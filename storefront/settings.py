@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "playground",
     "store",
+    # comment this line out, if you dont want tags
+    "store_custom",
     "tags",
     "likes",
     "debug_toolbar",
