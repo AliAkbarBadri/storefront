@@ -1,4 +1,5 @@
 from uuid import uuid4
+from django.core.validators import MinValueValidator
 from django.db import models
 from django.db.models import CharField
 from django.conf import settings
@@ -26,10 +27,12 @@ class Collection(models.Model):
 class Product(models.Model):
     title = models.CharField(max_length=255)
     slug = models.SlugField(null=True)
+    # null=True is for db, blank=True is for validation in the form
     description = models.TextField(null=True, blank=True)
     unit_price = models.DecimalField(
         max_digits=6,
         decimal_places=2,
+        validators=[MinValueValidator(1, message="Min price is 1")],
     )
     inventory = models.IntegerField()
     last_update = models.DateTimeField(auto_now=True)
