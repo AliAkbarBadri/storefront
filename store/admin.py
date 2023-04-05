@@ -11,6 +11,7 @@ class CollectionAdmin(admin.ModelAdmin):
     list_display = ["title", "featured_product", "product_count"]
     list_per_page = 10
     list_select_related = ["featured_product"]
+    search_fields = ["title"]
 
     @admin.display(ordering="products_count")
     def product_count(self, collection):
@@ -32,6 +33,7 @@ class CollectionAdmin(admin.ModelAdmin):
 
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
+    autocomplete_fields = ["customer"]
     list_display = ["id", "placed_at", "customer"]
     list_per_page = 10
 
@@ -57,9 +59,9 @@ class ProductAdmin(admin.ModelAdmin):
     # exclude = ["description"]
     # readonly_fields = ["title"]
     prepopulated_fields = {"slug": ["title"]}
-    
-    
-    
+
+    autocomplete_fields = ["collection"]
+
     actions = ["clear_inventory"]
     list_display = ["title", "unit_price", "inventory_status", "collection_title"]
     list_editable = ["unit_price"]
