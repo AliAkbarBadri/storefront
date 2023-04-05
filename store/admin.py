@@ -31,11 +31,19 @@ class CollectionAdmin(admin.ModelAdmin):
         return super().get_queryset(request).annotate(products_count=Count("products"))
 
 
+class OrderItemInline(admin.TabularInline):
+    model = models.OrderItem
+    min_num = 1
+    autocomplete_fields = ["product"]
+    extra = 0
+
+
 @admin.register(models.Order)
 class OrderAdmin(admin.ModelAdmin):
     autocomplete_fields = ["customer"]
     list_display = ["id", "placed_at", "customer"]
     list_per_page = 10
+    inlines = [OrderItemInline]
 
 
 class InventoryFilter(admin.SimpleListFilter):
@@ -69,6 +77,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_per_page = 10
     list_select_related = ["collection"]
     list_filter = ["collection", "last_update", InventoryFilter]
+    search_fields = ["title"]
 
     @admin.display(ordering="inventory")
     def inventory_status(self, product) -> str:
