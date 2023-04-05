@@ -4,18 +4,20 @@ from django.contrib.contenttypes.fields import GenericForeignKey
 
 
 class TaggedItemManager(models.Manager):
+    # get_tags_for(Product, 1)
     def get_tags_for(self, obj_type, obj_id):
         content_type = ContentType.objects.get_for_model(obj_type)
-        return TaggedItem.objects \
-                .select_related("tag") \
-                .filter(
-                    content_type=content_type,  # id of store product in django_content_type table
-                    object_id=obj_id,  # target product_id
-                )
+        return TaggedItem.objects.select_related("tag").filter(
+            content_type=content_type,  # id of store product in django_content_type table
+            object_id=obj_id,  # target product_id
+        )
 
 
 class Tag(models.Model):
     label = models.CharField(max_length=255)
+
+    def __str__(self) -> str:
+        return self.label
 
 
 class TaggedItem(models.Model):
