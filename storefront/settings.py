@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     "django.contrib.contenttypes",
     "django.contrib.messages",
     "django.contrib.staticfiles",
+    "rest_framework",
     "playground",
     "store",
     # comment this line out, if you dont want tags

@@ -8,6 +8,7 @@ django = "*"
 black = "*"
 psycopg2 = "*"
 django-debug-toolbar = "*"
+djangorestframework = "*"
 
 [dev-packages]
 
