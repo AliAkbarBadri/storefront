@@ -79,7 +79,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_select_related = ["collection"]
     list_filter = ["collection", "last_update", InventoryFilter]
     search_fields = ["title"]
-    
+
     @admin.display(ordering="inventory")
     def inventory_status(self, product) -> str:
         if product.inventory < 10:
