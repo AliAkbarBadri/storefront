@@ -9,7 +9,7 @@ DefaultRouter:
     - returns json for any path like http://127.0.0.1:8000/store/products/1.json 
 """
 router = routers.DefaultRouter()
-router.register('products', views.ProductViewSet)
+router.register('products', views.ProductViewSet, "products")
 router.register('collections', views.CollectionViewSet)
 
 products_router = routers.NestedDefaultRouter(router, "products", lookup="product")
