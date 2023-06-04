@@ -1,6 +1,6 @@
 from decimal import Decimal
 from rest_framework import serializers
-from store.models import Collection, Product
+from store.models import Collection, Product, Review
 
 
 class CollectionSerializer(serializers.ModelSerializer):
@@ -44,3 +44,9 @@ class ProductSerializer(serializers.ModelSerializer):
     #     instance.unit_price = validated_data.get("unit_price")
     #     instance.save()
     #     return instance
+
+
+class ReviewSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Review
+        fields = ["id", "date", "name", "description", "product"]
