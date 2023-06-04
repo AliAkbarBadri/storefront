@@ -11,6 +11,7 @@ django-debug-toolbar = "*"
 djangorestframework = "*"
 tzdata = "*"
 drf-nested-routers = "*"
+django-filter = "*"
 
 [dev-packages]
 
