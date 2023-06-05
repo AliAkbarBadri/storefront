@@ -2,6 +2,7 @@
 
 from django.db import migrations, models
 import django.db.models.deletion
+import uuid
 
 
 class Migration(migrations.Migration):
@@ -15,11 +16,14 @@ class Migration(migrations.Migration):
             fields=[
                 (
                     "id",
-                    models.BigAutoField(
-                        auto_created=True,
-                        primary_key=True,
-                        serialize=False,
-                        verbose_name="ID",
+                    # models.BigAutoField(
+                    #     auto_created=True,
+                    #     primary_key=True,
+                    #     serialize=False,
+                    #     verbose_name="ID",
+                    # ),
+                    models.UUIDField(
+                        default=uuid.uuid4, primary_key=True, serialize=False
                     ),
                 ),
                 ("created_at", models.DateTimeField(auto_now_add=True)),
@@ -60,7 +64,8 @@ class Migration(migrations.Migration):
                 (
                     "membership",
                     models.CharField(
-                        choices=[("B", "Bronze"), ("S", "Silver"), ("G", "Gold")],
+                        choices=[("B", "Bronze"),
+                                 ("S", "Silver"), ("G", "Gold")],
                         default="B",
                         max_length=1,
                     ),
@@ -83,7 +88,8 @@ class Migration(migrations.Migration):
                 (
                     "payment_status",
                     models.CharField(
-                        choices=[("P", "Pending"), ("C", "Complete"), ("F", "Failed")],
+                        choices=[("P", "Pending"), ("C", "Complete"),
+                                 ("F", "Failed")],
                         default="P",
                         max_length=1,
                     ),
@@ -127,7 +133,8 @@ class Migration(migrations.Migration):
                 ("title", models.CharField(max_length=255)),
                 ("slug", models.SlugField(null=True)),
                 ("description", models.TextField(blank=True, null=True)),
-                ("unit_price", models.DecimalField(decimal_places=2, max_digits=6)),
+                ("unit_price", models.DecimalField(
+                    decimal_places=2, max_digits=6)),
                 ("inventory", models.IntegerField()),
                 ("last_update", models.DateTimeField(auto_now=True)),
                 (
@@ -157,7 +164,8 @@ class Migration(migrations.Migration):
                     ),
                 ),
                 ("quantity", models.PositiveSmallIntegerField()),
-                ("unit_price", models.DecimalField(decimal_places=2, max_digits=6)),
+                ("unit_price", models.DecimalField(
+                    decimal_places=2, max_digits=6)),
                 (
                     "order",
                     models.ForeignKey(
