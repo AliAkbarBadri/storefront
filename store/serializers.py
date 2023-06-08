@@ -82,6 +82,10 @@ class CartItemSerializer(serializers.ModelSerializer):
 
     def get_total_price(self, cart_item: CartItem):
         return cart_item.quantity * cart_item.product.unit_price
+    
+    def create(self, validated_data):
+        cart_id = self.context["cart_id"]
+        return CartItem.objects.create(cart_id=cart_id, **validated_data)
 
 
 class CartSerializer(serializers.ModelSerializer):
