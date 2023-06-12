@@ -42,10 +42,10 @@ INSTALLED_APPS = [
     "playground",
     "store",
     # comment this line out, if you dont want tags
-    "store_custom",
     "tags",
     "likes",
     "debug_toolbar",
+    "core",
 ]
 
 MIDDLEWARE = [
@@ -143,3 +143,5 @@ DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 REST_FRAMEWORK = {
     "COERCE_DECIMAL_TO_STRING": False,    
 }
+
+AUTH_USER_MODEL = 'core.User'
