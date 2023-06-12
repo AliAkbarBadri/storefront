@@ -1,8 +1,4 @@
-from dataclasses import fields
 from decimal import Decimal
-from itertools import product
-from multiprocessing import managers
-from pyexpat import model
 from rest_framework import serializers
 from store.models import Cart, CartItem, Collection, Product, Review
 
@@ -101,7 +97,6 @@ class AddCartItemSerializer(serializers.ModelSerializer):
         product_id = self.validated_data.get("product_id")
         quantity = self.validated_data.get("quantity")
         try:
-            print("we were here!")
             cart_item = CartItem.objects.get(cart_id=cart_id, product_id=product_id)
             cart_item.quantity += quantity
             cart_item.save()
@@ -109,8 +104,13 @@ class AddCartItemSerializer(serializers.ModelSerializer):
             
         except CartItem.DoesNotExist:
             self.instance = CartItem.objects.create(cart_id=cart_id, **self.validated_data)
-        return self.instance
-
+        return self.instance\
+        
+class UpdateCartItemSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CartItem
+        fields = ["quantity"]
+    
 class CartSerializer(serializers.ModelSerializer):
     id = serializers.UUIDField(read_only=True)
     items = CartItemSerializer(many=True, read_only=True)
